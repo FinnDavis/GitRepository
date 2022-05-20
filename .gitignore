@@ -7,6 +7,15 @@
 *.o
 *.obj
 
+#Visual Studio temporary files
+*.pdb
+*.idb
+*.ilk
+*.tlog/
+*.recipe
+*/.vs/
+*.log
+
 # Precompiled Headers
 *.gch
 *.pch
@@ -30,3 +39,9 @@
 *.exe
 *.out
 *.app
+
+# Other temporary files
+*.bak
+
+# Allow Raylib files
+!*/Raylib/**

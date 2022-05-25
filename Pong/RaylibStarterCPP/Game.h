@@ -5,7 +5,7 @@
 #include "raylib.h"
 #include "raygui.h"
 #include <iostream>
-
+#include <random>
 
 namespace Game
 {
@@ -13,18 +13,31 @@ namespace Game
 	{
 	private:
 		bool gameStart = false;
+		bool gameOver = false;
+		bool debug = false;
+		
+		int score = 0;
 
 		int playerWidth = 20;
 		int playerHight = 80;
-		int ballRadius = 10;
+		float ballRadius = 10;
+
+		int ballSpeed = 300;
 
 		int screenWidth = 800;
 		int screenHeight = 450;
+		int targetFps = 60;
+
+		std::mt19937 rng;
+		std::uniform_real_distribution<float> range;
 
 		Plane edgeTop = { 0, 1, 0 };
-		Plane edgeBottom = { 0, -1, screenHeight };
+		Plane edgeBottom = { 0, -1, (float)screenHeight };
 		Plane edgeLeft = { 1, 0, 0 };
-		Plane edgeRight = { -1, 0, screenWidth };
+		Plane edgeRight = { -1, 0, (float)screenWidth };
+
+		Vector2 player1CurvePoint;
+		Vector2 player2CurvePoint;
 
 		Vector2 player1Pos = Vector2{ 20, 10 }; 
 		Vector2 player2Pos = Vector2{ (float)screenWidth - 40, 10 };
@@ -35,7 +48,9 @@ namespace Game
 		AABB player2AABB;
 		AABB ballAABB;
 
+		const char* title = "Pong";
 		const char* startText = "Press space to start!";
+		const char* gameOverText = "        Game Over!\nPress space to restart.";
 		int fontSize = 20;
 
 
@@ -43,23 +58,6 @@ namespace Game
 		void Init();
 		void Update();
 		void Draw();
-
-		/*
-		void DrawCoordinateSystem()
-		{
-			float lineLength = 64;
-
-			Vector3 worldPosition = Vector3{ ballPos.x, ballPos.y, 0.0f };
-			Vector3 forwardDirection = GlobalTransform * Vector3{ 1, 0, 0 };
-			Vector3 rightDirection = GlobalTransform * Vector3{ 0, 1, 0 };
-			Vector3 forwardPosition = worldPosition + forwardDirection * lineLength;
-			Vector3 rightPosition = worldPosition + rightDirection * lineLength;
-
-			DrawCircleLines((int)worldPosition.x, (int)worldPosition.y, 16, PURPLE);
-
-			DrawLine((int)worldPosition.x, (int)worldPosition.y, (int)forwardPosition.x, (int)forwardPosition.y, RED);
-			DrawLine((int)worldPosition.x, (int)worldPosition.y, (int)rightPosition.x, (int)rightPosition.y, GREEN);
-		}
-		*/
+		void DrawDebug();
 	};
 }

@@ -43,7 +43,7 @@ Vector3 Plane::ClosestPoint(Vector3 p)
     return Vector3Multiply(Vector3Subtract(p, this->N), Vector3{ distanceToP , distanceToP , distanceToP });
 }
 
-inline Vector2 Plane::GetPlaneDirection()
+Vector2 Plane::GetPlaneDirection()
 {
     return Vector2{ this->N.x , this->N.y };
 }
@@ -87,7 +87,7 @@ Plane::ePlaneResult Plane::TestSide(AABB aabb)
                             aabb.max,
                             Vector3{ aabb.max.x, aabb.min.y, aabb.min.z } };
 
-    for (Vector3 c : corners)
+    for (Vector3 &c : corners)
     {
         ePlaneResult result = TestSide(c);
         if (result == ePlaneResult::FRONT)

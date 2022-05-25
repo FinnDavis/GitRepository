@@ -9,8 +9,8 @@ class Plane
 {
 private:
 
-    Vector3 N;
-    float offset;
+    Vector3 N{};
+    float offset{};
 
 public:
 

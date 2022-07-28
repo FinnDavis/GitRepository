@@ -10,48 +10,46 @@ void::GameWindow::Init()
 	SetTargetFPS(targetFps);
 	rng.seed(time(nullptr));
 	range = std::uniform_real_distribution<float>(-PI / 4, PI / 4);
-	icon = LoadImage("../PongIcon.PNG");
-	SetWindowIcon(icon);
 }
 
 void::GameWindow::Update()
 {
-	// Test if game has started or game over
 	if (gameStart && !gameOver)
-	{	
-		// Player 1 controls (Left paddle)
+	{
 		if (IsKeyDown(KEY_W) && player1Pos.y > 0 && !IsKeyDown(KEY_DOWN))
 		{
-			player1Pos = Vector2Add(player1Pos, Vector2Scale(Vector2{ 0, -(float)screenHeight}, GetFrameTime()));
+			player1Pos = Vector2Add(player1Pos, Vector2Scale(Vector2{ 0, -225 }, GetFrameTime()));
 		}
 		else if (IsKeyDown(KEY_S) && player1Pos.y < screenHeight - playerHight && !IsKeyDown(KEY_UP))
 		{
-			player1Pos = Vector2Add(player1Pos, Vector2Scale(Vector2{ 0, (float)screenHeight }, GetFrameTime()));
+			player1Pos = Vector2Add(player1Pos, Vector2Scale(Vector2{ 0, 225 }, GetFrameTime()));
 		}
 
-		// Player 2 controls (Right paddle)
 		if (IsKeyDown(KEY_UP) && player2Pos.y > 0 && !IsKeyDown(KEY_DOWN))
 		{
-			player2Pos = Vector2Add(player2Pos, Vector2Scale(Vector2{ 0, -(float)screenHeight }, GetFrameTime()));
+			player2Pos = Vector2Add(player2Pos, Vector2Scale(Vector2{ 0, -225 }, GetFrameTime()));
 		}
 		else if (IsKeyDown(KEY_DOWN) && player2Pos.y < screenHeight - playerHight && !IsKeyDown(KEY_UP))
 		{
-			player2Pos = Vector2Add(player2Pos, Vector2Scale(Vector2{ 0, (float)screenHeight }, GetFrameTime()));
+			player2Pos = Vector2Add(player2Pos, Vector2Scale(Vector2{ 0, 225 }, GetFrameTime()));
+		}
+		if (IsKeyReleased(KEY_Z))
+		{
+			if (debug)
+			{
+				debug = false;
+			}
+			else
+			{
+				debug = true;
+			}
 		}
 
-		// Toggle debug mode
-		if (IsKeyReleased(KEY_Z))
-			if (debug) debug = false;
-			else debug = true;
-		
-		// Update ball position
 		ballPos = Vector2Add(ballPos, Vector2Scale(ballVelocity, GetFrameTime()));
 
-		// Point used to decid the distance from the middle of the paddle to where the ball hit the paddle
 		player1CurvePoint = Vector2{ player1Pos.x - 80, player1Pos.y + playerHight / 2 };
 		player2CurvePoint = Vector2{ player2Pos.x + 100, player2Pos.y + playerHight / 2 };
 
-		// Update AABB's
 		player1AABB.min = Vector3{ player1Pos.x, player1Pos.y, 1 };
 		player1AABB.max = Vector3{ player1Pos.x + playerWidth, player1Pos.y + playerHight, 1 };
 
